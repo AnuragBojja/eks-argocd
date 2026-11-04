@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: NameSpace             # The name of your application inside Argo CD
+  name: namespace             # The name of your application inside Argo CD
   namespace: argocd               # Must be the namespace where Argo CD is installed
 spec:
   project: default                # Argo CD project to group applications (defaults to 'default')
