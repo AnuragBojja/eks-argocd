@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: NameSpace             # The name of your application inside Argo CD
+  namespace: argocd               # Must be the namespace where Argo CD is installed
+spec:
+  project: default                # Argo CD project to group applications (defaults to 'default')
+
+  # Source: Defines where your Kubernetes manifests are stored
+  source:
+    repoURL: 'https://github.com/AnuragBojja/eks-argocd.git' # Git repository URL
+    targetRevision: main          # Git branch, tag, or commit SHA to track
+    path: namespaces               # Path inside the repository containing your YAML manifests/Helm charts
+
+  # Destination: Defines where to deploy the application
+  destination:
+    server: 'https://kubernetes.default.svc' # Target cluster API URL ('in-cluster' points to local cluster)
+    namespace: argocd 
+
+     # Sync Policy: Configures how Argo CD automates deployment syncs
+  syncPolicy:
+    automated:
+      prune: true                 # Deletes resources from K8s if they are removed from Git
+      selfHeal: true              # Overwrites manual changes in K8s with the Git state
+    # syncOptions:
+    #   - CreateNamespace=true      # Tells Argo CD to create the target namespace if it doesn't exist
